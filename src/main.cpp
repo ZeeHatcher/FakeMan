@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "SwinGame.h"
+#include "GameObject.h"
 
 int main()
 {

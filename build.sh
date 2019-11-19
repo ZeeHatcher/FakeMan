@@ -353,6 +353,15 @@ doWindowsCompile()
         name=${name%%.cpp} # %% = delete longest match from back, i.e. extract .cpp
         doCompile "${file}" "${name}" "${TMP_DIR}/${name}.o" ""
     done
+
+    for file in `find ${SRC_DIR} | grep [.]cpp$`; do
+	name=${file##*/} # ## = delete longest match for */... ie all but file name
+	name=${name%%.cpp} # %% = delete longest match from back, i.e. extract .cpp
+
+	if [ "${name}" != "${GAMEMAIN}" ]; then
+	    doCompile "${file}" "${name}" "${TMP_DIR}/${name}.o" ""
+	fi
+    done
     
     doCompileGameMain ""
     
