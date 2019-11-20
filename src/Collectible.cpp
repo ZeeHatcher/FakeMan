@@ -7,5 +7,4 @@ Collectible::Collectible(float x, float y, int32_t width, int32_t height, color 
 
 void Collectible::collect(Player* player)
 {
-
 }
