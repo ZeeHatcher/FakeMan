@@ -21,9 +21,10 @@ public :
 	Game();
 	void update();
 	void draw();
-	void initMap();
 
 private :
+	void initMap();
+	void initWalls(std::vector<Wall*>* walls, int x, int y, int widthSpan, int heightSpan);
 	Menu menu_;
 	Player* player_;
 	Status status_;

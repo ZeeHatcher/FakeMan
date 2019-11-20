@@ -5,7 +5,7 @@
 int main()
 {
     open_graphics_window("Hello World", 800, 600);
-    show_swin_game_splash_screen();
+    // show_swin_game_splash_screen();
 
     Game game;
     
@@ -15,9 +15,9 @@ int main()
         
         clear_screen(ColorBlack);
         
-        draw_framerate(0,0);
-
         game.draw();
+		
+		draw_framerate(0,0);
         
         refresh_screen(60);
     } while ( ! window_close_requested() );

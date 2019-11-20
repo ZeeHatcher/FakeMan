@@ -8,6 +8,5 @@ class Wall
 {
 public :
 	Wall(float x, float y);
-	Wall(float x, float y, int32_t width, int32_t height);
 	void draw();
 };
