@@ -21,6 +21,7 @@ public :
 	Game();
 	void update();
 	void draw();
+	void initMap();
 
 private :
 	Menu menu_;

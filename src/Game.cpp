@@ -4,3 +4,8 @@ Game::Game()
 {
 
 }
+
+void Game::initMap()
+{
+
+}
