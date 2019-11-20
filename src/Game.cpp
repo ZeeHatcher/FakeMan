@@ -3,8 +3,6 @@
 Game::Game()
 {
     initMap();
-
-    player_ = new Player();
 }
 
 void Game::update()
@@ -18,8 +16,6 @@ void Game::draw()
     {
         borders_[i]->draw();
     }
-
-    player_->draw();
 }
 
 void Game::initMap()

@@ -434,8 +434,7 @@ locateGameMain()
   fi
 }
 
-locateGameMain
-
+GAME_MAIN="main.cpp"
 
 if [ $CLEAN = "N" ]
 then
