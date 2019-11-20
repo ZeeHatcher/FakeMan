@@ -1,5 +1,6 @@
 #pragma once
 #include "CollidableObject.h"
+#include "SwinGame.h"
 
 class Wall
 	: public CollidableObject

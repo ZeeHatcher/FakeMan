@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "DrawableObject.h"
+#include "SwinGame.h"
 #include "Status.h"
 
 class Menu

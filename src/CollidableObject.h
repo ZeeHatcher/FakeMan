@@ -1,5 +1,6 @@
 #pragma once
 #include "DrawableObject.h"
+#include "SwinGame.h"
 
 class CollidableObject
 	: public DrawableObject

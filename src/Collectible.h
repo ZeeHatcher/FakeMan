@@ -1,6 +1,7 @@
 #pragma once
 #include "CollidableObject.h"
 #include "Player.h"
+#include "SwinGame.h"
 
 class Collectible
 	: public CollidableObject

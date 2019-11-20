@@ -1,6 +1,6 @@
 #pragma once
-#include "Types.h"
 #include "MoveableObject.h"
+#include "SwinGame.h"
 
 class Enemy
 	: public MoveableObject

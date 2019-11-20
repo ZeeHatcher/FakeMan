@@ -7,4 +7,5 @@ Wall::Wall(float x, float y)
 
 void Wall::draw()
 {
+	draw_rectangle(color_, bounding_);
 }

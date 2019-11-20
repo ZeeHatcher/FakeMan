@@ -1,6 +1,7 @@
 #pragma once
-#include "MoveableObject.h"
 #include "Bomb.h"
+#include "MoveableObject.h"
+#include "SwinGame.h"
 
 class Player
 	: public MoveableObject
