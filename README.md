@@ -4,7 +4,7 @@ Distinction-level assginment for COS20007 OBJECT ORIENTED PROGRAMMING.
 
 ## ToDo
 - [x] Walls & Map
-- [ ] Collision
+- [x] Collision
 - [ ] Player Movement
 - [ ] Collectibles & Player Interaction
 - [ ] Bombs & Explosions
