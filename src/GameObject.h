@@ -1,7 +1,5 @@
 #pragma once
-#include "Types.h"
-#include "Colors.h"
-#include "Graphics.h"
+#include "SwinGame.h"
 
 class GameObject
 {
