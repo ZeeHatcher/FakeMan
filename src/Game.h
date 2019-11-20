@@ -31,5 +31,6 @@ private :
 	std::vector<Collectible*> collectibles_;
 	std::vector<Enemy*> enemies_;
 	std::vector<Explosion*> explosions_;
+	std::vector<Wall*> borders_;
 	std::vector<Wall*> walls_;
 };

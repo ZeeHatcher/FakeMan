@@ -15,6 +15,7 @@ public :
 	void draw();
 
 private :
+	bitmap bmp_;
 	int score_;
 	int ammo_;
 };

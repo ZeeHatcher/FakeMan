@@ -5,6 +5,7 @@ Player::Player()
 {
 	score_ = 0;
 	ammo_ = 0;
+	bmp_ = load_bitmap("pacman.png");
 }
 
 int Player::getAmmo()
@@ -28,4 +29,5 @@ void Player::die()
 
 void Player::draw()
 {
+	draw_bitmap(bmp_, bounding_.x, bounding_.y);
 }

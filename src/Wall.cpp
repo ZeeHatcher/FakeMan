@@ -1,11 +1,17 @@
 #include "Wall.h"
 
 Wall::Wall(float x, float y)
-	: CollidableObject(x, y, TILE_WIDTH, TILE_HEIGHT, ColorGray)
+	: Wall(x, y, TILE_DIM, TILE_DIM)
+{
+}
+
+Wall::Wall(float x, float y, int32_t width, int32_t height)
+	: CollidableObject(x, y, width, height, ColorGray)
 {
 }
 
 void Wall::draw()
 {
-	draw_rectangle(color_, bounding_);
+	fill_rectangle(color_, bounding_);
+	draw_rectangle(ColorBlack, bounding_);
 }

@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include "SwinGame.h"
-#include "Wall.h"
+#include "Game.h"
 
 int main()
 {
     open_graphics_window("Hello World", 800, 600);
     show_swin_game_splash_screen();
 
-	Wall* w = new Wall(10, 10);
+    Game game;
     
     do
     {
         process_events();
         
-        clear_screen(ColorWhite);
+        clear_screen(ColorBlack);
         
         draw_framerate(0,0);
 
-		w->draw();
+        game.draw();
         
         refresh_screen(60);
     } while ( ! window_close_requested() );
