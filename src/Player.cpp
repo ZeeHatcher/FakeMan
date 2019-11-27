@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player()
-	: MoveableObject(10, 10, 10, 10, ColorYellow, 10)
+	: MoveableObject(TILE_DIM+1, TILE_DIM+1, TILE_DIM-2, TILE_DIM-2, ColorYellow, 2)
 {
 	score_ = 0;
 	ammo_ = 0;
@@ -29,5 +29,5 @@ void Player::die()
 
 void Player::draw()
 {
-	draw_bitmap(bmp_, bounding_.x, bounding_.y);
+	draw_rectangle(color_, bounding_);
 }

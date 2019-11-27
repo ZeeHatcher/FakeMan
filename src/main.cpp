@@ -15,6 +15,7 @@ int main()
         
         clear_screen(ColorBlack);
         
+        game.update();
         game.draw();
 		
 		draw_framerate(0,0);

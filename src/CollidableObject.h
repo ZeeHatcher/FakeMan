@@ -8,4 +8,5 @@ class CollidableObject
 public :
 	CollidableObject(float x, float y, int32_t width, int32_t height, color col);
 	bool isCollide(CollidableObject* ent);
+	void setColor(color clr);
 };

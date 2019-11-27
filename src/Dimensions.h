@@ -1,2 +1,2 @@
 #pragma once
-#define TILE_DIM 30
+#define TILE_DIM 50

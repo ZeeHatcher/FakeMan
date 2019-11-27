@@ -2,11 +2,105 @@
 
 Game::Game()
 {
+	player_ = new Player();
     initMap();
 }
 
 void Game::update()
 {
+	rectangle* playerBounding = &(player_->getBounding());
+
+	if (key_down(VK_LEFT))
+	{
+		player_->move(-1, 0);
+
+		for (int i = 0; i < borders_.size(); i++)
+		{
+			if (player_->isCollide(borders_[i]))
+			{
+				rectangle wallBounding = borders_[i]->getBounding();
+				player_->warp(wallBounding.x + wallBounding.width + 1, playerBounding->y);
+			}
+		}
+
+		for (int i = 0; i < walls_.size(); i++)
+		{
+			if (player_->isCollide(walls_[i]))
+			{
+				rectangle wallBounding = walls_[i]->getBounding();
+				player_->warp(wallBounding.x + wallBounding.width + 1, playerBounding->y);
+			}
+		}
+	}
+
+	if (key_down(VK_RIGHT))
+	{
+		player_->move(1, 0);
+
+		for (int i = 0; i < borders_.size(); i++)
+		{
+			if (player_->isCollide(borders_[i]))
+			{
+				rectangle wallBounding = borders_[i]->getBounding();
+				player_->warp(wallBounding.x - playerBounding->width - 1, playerBounding->y);
+			}
+		}
+
+		for (int i = 0; i < walls_.size(); i++)
+		{
+			if (player_->isCollide(walls_[i]))
+			{
+				rectangle wallBounding = walls_[i]->getBounding();
+				player_->warp(wallBounding.x - playerBounding->width - 1, playerBounding->y);
+			}
+		}
+	}
+
+	if (key_down(VK_UP))
+	{
+		player_->move(0, -1);
+
+		for (int i = 0; i < borders_.size(); i++)
+		{
+			if (player_->isCollide(borders_[i]))
+			{
+				rectangle wallBounding = borders_[i]->getBounding();
+				player_->warp(playerBounding->x, wallBounding.y + wallBounding.height + 1);
+			}
+		}
+
+		for (int i = 0; i < walls_.size(); i++)
+		{
+			if (player_->isCollide(walls_[i]))
+			{
+				rectangle wallBounding = walls_[i]->getBounding();
+				player_->warp(playerBounding->x, wallBounding.y + wallBounding.height + 1);
+			}
+		}
+	}
+
+	if (key_down(VK_DOWN))
+	{
+		player_->move(0, 1);
+
+		for (int i = 0; i < borders_.size(); i++)
+		{
+			if (player_->isCollide(borders_[i]))
+			{
+				rectangle wallBounding = borders_[i]->getBounding();
+				player_->warp(playerBounding->x, wallBounding.y - playerBounding->height - 1);
+			}
+		}
+
+		for (int i = 0; i < walls_.size(); i++)
+		{
+			if (player_->isCollide(walls_[i]))
+			{
+				rectangle wallBounding = walls_[i]->getBounding();
+				player_->warp(playerBounding->x, wallBounding.y - playerBounding->height - 1);
+			}
+		}
+	}
 
 }
 
@@ -21,6 +115,8 @@ void Game::draw()
 	{
 		walls_[i]->draw();
 	}
+
+	player_->draw();
 }
 
 void Game::initMap()

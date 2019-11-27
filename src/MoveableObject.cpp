@@ -7,8 +7,16 @@ MoveableObject::MoveableObject(float x, float y, int32_t width, int32_t height, 
 	alive_ = true;
 }
 
-void MoveableObject::move(float x, float y)
+void MoveableObject::move(int x, int y)
 {
+	bounding_.x += x * speed_;
+	bounding_.y += y * speed_;
+}
+
+void MoveableObject::warp(float x, float y)
+{
+	bounding_.x = x;
+	bounding_.y = y;
 }
 
 bool MoveableObject::getAlive()
