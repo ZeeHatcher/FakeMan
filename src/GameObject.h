@@ -5,7 +5,7 @@ class GameObject
 {
 public:
 	GameObject(float x, float y, int32_t width, int32_t height, color col);
-	rectangle getBounding();
+	rectangle& getBounding();
 
 protected:
 	rectangle bounding_;
