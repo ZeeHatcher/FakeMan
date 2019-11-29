@@ -3,6 +3,7 @@
 Game::Game()
 {
 	player_ = new Player();
+	initCells(10, 10);
     initMap();
 }
 
@@ -118,29 +119,63 @@ void Game::draw()
 	player_->draw();
 }
 
+void Game::initCells(int widthSpan, int heightSpan)
+{
+	for (int x = 0; x < widthSpan; x++)
+	{
+		cells_.push_back(std::vector<Cell*>());
+		for (int y = 0; y < heightSpan; y++)
+		{
+			cells_[x].push_back(new Cell(x * TILE_DIM, y * TILE_DIM));
+		}
+	}
+}
+
 void Game::initMap()
 {
     // Init "indestructible" borders
-	initWalls(borders_, 0, 0, 9, 0);
-	initWalls(borders_, 0, 9, 9, 0);
-	initWalls(borders_, 0, 1, 0, 7);
-	initWalls(borders_, 9, 1, 0, 7);
+	for (int x = 0; x < cells_.size(); x++)
+	{
+		if (x == 0 || x == cells_.size() - 1)
+		{
+			for (int y = 0; y < cells_[x].size(); y++)
+			{
+				rectangle cellBounding = cells_[x][y]->getBounding();
+				borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+			}
+		}
+		else
+		{
+			rectangle cellBounding;
+
+			cellBounding = (cells_[x].front())->getBounding();
+			borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+
+			cellBounding = (cells_[x].back())->getBounding();
+			borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+		}
+	}
 
     // Init "destructible" walls
-	initWalls(walls_, 2, 2, 5, 0);
-	initWalls(walls_, 2, 7, 5, 0);
-	initWalls(walls_, 2, 4, 0, 1);
-	initWalls(walls_, 7, 4, 0, 1);
-	initWalls(walls_, 4, 5, 1, 0);
+	initWalls(2, 2, 5, 0);
+	initWalls(2, 7, 5, 0);
+	initWalls(2, 4, 0, 1);
+	initWalls(7, 4, 0, 1);
+	initWalls(4, 5, 1, 0);
 }
 
-void Game::initWalls(std::vector<Wall*>& walls, int x, int y, int widthSpan, int heightSpan)
+void Game::initWalls(int x, int y, int widthSpan, int heightSpan)
 {
 	for (int n = x; n < x + widthSpan + 1; n++)
 	{
+		if (n >= cells_.size()) break;
+
 		for (int m = y; m < y + heightSpan + 1; m++)
 		{
-			walls.push_back(new Wall(n * TILE_DIM, m * TILE_DIM));	
+			if (m >= cells_[n].size()) break;
+
+			rectangle cellBounding = cells_[n][m]->getBounding();
+			walls_.push_back(new Wall(cellBounding.x, cellBounding.y));	
 		}
 	}	
 }

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Ammo.h"
 #include "Bomb.h"
+#include "Cell.h"
 #include "Collectible.h"
 #include "CollidableObject.h"
 #include "DrawableObject.h"
@@ -23,13 +24,15 @@ public :
 	void draw();
 
 private :
+	void initCells(int widthSpan, int heightSpan);
 	void initMap();
-	void initWalls(std::vector<Wall*>& walls, int x, int y, int widthSpan, int heightSpan);
+	void initWalls(int x, int y, int widthSpan, int heightSpan);
 	
 	Menu menu_;
 	Player* player_;
 	Status status_;
 	std::vector<Bomb*> bombs_;
+	std::vector<std::vector<Cell*>> cells_;
 	std::vector<Collectible*> collectibles_;
 	std::vector<Enemy*> enemies_;
 	std::vector<Explosion*> explosions_;
