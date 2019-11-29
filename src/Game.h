@@ -25,6 +25,7 @@ public :
 
 private :
 	void initCells(int widthSpan, int heightSpan);
+	void initCollectibles();
 	void initMap();
 	void initWalls(int x, int y, int widthSpan, int heightSpan);
 	

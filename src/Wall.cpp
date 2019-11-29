@@ -7,6 +7,6 @@ Wall::Wall(float x, float y)
 
 void Wall::draw()
 {
-	fill_rectangle(color_, bounding_);
-	draw_rectangle(ColorDarkGray, bounding_);
+	draw_rectangle(color_, bounding_);
+	// draw_rectangle(ColorDarkGray, bounding_);
 }

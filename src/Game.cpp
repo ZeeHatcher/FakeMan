@@ -3,12 +3,25 @@
 Game::Game()
 {
 	player_ = new Player();
-	initCells(10, 10);
+	initCells(20, 20);
     initMap();
+	initCollectibles();
 }
 
 void Game::update()
 {
+	for (int i = collectibles_.size() - 1; i >= 0; i--)
+	{
+		Collectible* col = collectibles_[i];
+
+		if (player_->isCollide(col))
+		{
+			col->collect(player_);
+			delete col;
+			collectibles_.erase(collectibles_.begin() + i);
+		}
+	}
+
 	rectangle& playerBounding = player_->getBounding();
 
 	if (key_down(VK_LEFT))
@@ -116,6 +129,11 @@ void Game::draw()
 		walls_[i]->draw();
 	}
 
+	for (int i = 0; i < collectibles_.size(); i++)
+	{
+		collectibles_[i]->draw();
+	}
+
 	player_->draw();
 }
 
@@ -127,6 +145,36 @@ void Game::initCells(int widthSpan, int heightSpan)
 		for (int y = 0; y < heightSpan; y++)
 		{
 			cells_[x].push_back(new Cell(x * TILE_DIM, y * TILE_DIM));
+		}
+	}
+}
+
+void Game::initCollectibles()
+{
+	for (int x = 1; x < cells_.size() - 1; x++)
+	{
+		for (int y = 1; y < cells_[x].size() - 1; y++)
+		{
+			bool isOccupied = false;
+			rectangle cellBounding = cells_[x][y]->getBounding();
+
+			for (int n = 0; n < walls_.size(); n++)
+			{
+				rectangle wallBounding = walls_[n]->getBounding();
+
+				if (cellBounding.x == wallBounding.x && cellBounding.y == wallBounding.y)
+				{
+					isOccupied = true;
+					break;
+				}
+			}
+
+			if (!isOccupied)
+			{
+				collectibles_.push_back(
+					new Food(cellBounding.x + cellBounding.width / 2 - 5 / 2, cellBounding.y + cellBounding.height / 2 - 5 / 2)
+				);
+			}
 		}
 	}
 }

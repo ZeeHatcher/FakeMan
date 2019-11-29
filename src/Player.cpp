@@ -29,5 +29,5 @@ void Player::die()
 
 void Player::draw()
 {
-	draw_rectangle(color_, bounding_);
+	fill_rectangle(color_, bounding_);
 }
