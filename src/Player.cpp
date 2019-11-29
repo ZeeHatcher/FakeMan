@@ -28,9 +28,27 @@ void Player::incrementScore()
 	score_++;
 }
 
-Bomb* Player::useAmmo()
+void Player::dropBomb(std::vector<Bomb*>& bombs)
 {
-	return new Bomb(bounding_.x, bounding_.y);
+	if (ammo_ > 0)
+	{
+		float xDiff, yDiff, cellX, cellY;
+
+		xDiff = std::fmod(bounding_.x, TILE_DIM);
+		cellX = (xDiff < TILE_DIM / 2) ? bounding_.x - xDiff : bounding_.x - xDiff + TILE_DIM;
+
+		yDiff = std::fmod(bounding_.y, TILE_DIM);
+		cellY = (yDiff < TILE_DIM / 2) ? bounding_.y - yDiff : bounding_.y - yDiff + TILE_DIM;
+
+		bombs.push_back(
+			new Bomb(
+				cellX + (TILE_DIM / 2) - (BOMB_DIM / 2),
+				cellY + (TILE_DIM / 2) - (BOMB_DIM / 2)
+			)
+		);
+
+		ammo_--;
+	}
 }
 
 void Player::die()

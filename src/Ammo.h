@@ -1,5 +1,6 @@
 #pragma once
 #include "Collectible.h"
+#include "Dimensions.h"
 #include "SwinGame.h"
 
 class Ammo

@@ -10,6 +10,22 @@ Game::Game()
 
 void Game::update()
 {
+	for (int i = bombs_.size() - 1; i >= 0; i--)
+	{
+		Bomb* bomb = bombs_[i];
+
+		if (bomb->canExplode())
+		{
+			bomb->explode(cells_, walls_, explosions_);
+			delete bomb;
+			bombs_.erase(bombs_.begin() + i);
+		}
+		else
+		{
+			bomb->decrementActualTimeToExplode();
+		}
+	}
+
 	for (int i = collectibles_.size() - 1; i >= 0; i--)
 	{
 		Collectible* col = collectibles_[i];
@@ -19,10 +35,6 @@ void Game::update()
 			col->collect(player_);
 			delete col;
 			collectibles_.erase(collectibles_.begin() + i);
-
-			cout << "Score: " << player_->getScore() << endl;
-			cout << "Ammo: " << player_->getAmmo() << endl;
-			cout << endl;
 		}
 	}
 
@@ -119,23 +131,38 @@ void Game::update()
 			}
 		}
 	}
+
+	if (key_typed(VK_SPACE))
+	{
+		player_->dropBomb(bombs_);
+	}
 }
 
 void Game::draw()
 {
+	for (int i = 0; i < collectibles_.size(); i++)
+	{
+		collectibles_[i]->draw();
+	}
+
+	for (int i = 0; i < explosions_.size(); i++)
+	{
+		explosions_[i]->draw();
+	}
+
+	for (int i = 0; i < bombs_.size(); i++)
+	{
+		bombs_[i]->draw();
+	}
+
     for (int i = 0; i < borders_.size(); i++)
     {
         borders_[i]->draw();
     }
-	
+
 	for (int i = 0; i < walls_.size(); i++)
 	{
 		walls_[i]->draw();
-	}
-
-	for (int i = 0; i < collectibles_.size(); i++)
-	{
-		collectibles_[i]->draw();
 	}
 
 	player_->draw();
@@ -175,19 +202,27 @@ void Game::initCollectibles()
 
 			if (!isOccupied)
 			{
-				if (x == 1 && y == 1 ||
-					x == 8 && y == 1 ||
-					x == 1 && y == 8 ||
-					x == 8 && y == 8)
+				if (
+					(x == 1 && y == 1) ||
+					(x == 8 && y == 1) ||
+					(x == 1 && y == 8) ||
+					(x == 8 && y == 8)
+				)
 				{
 					collectibles_.push_back(
-						new Ammo(cellBounding.x + cellBounding.width / 2 - 10 / 2, cellBounding.y + cellBounding.height / 2 - 10 / 2)
+						new Ammo(
+							cellBounding.x + (cellBounding.width / 2) - (AMMO_DIM / 2),
+							cellBounding.y + (cellBounding.height / 2) - (AMMO_DIM / 2)
+						)
 					);
 				}
 				else
 				{
 					collectibles_.push_back(
-						new Food(cellBounding.x + cellBounding.width / 2 - 5 / 2, cellBounding.y + cellBounding.height / 2 - 5 / 2)
+						new Food(
+							cellBounding.x + (cellBounding.width / 2) - (FOOD_DIM / 2),
+							cellBounding.y + (cellBounding.height / 2) - (FOOD_DIM / 2)
+						)
 					);
 				}
 			}

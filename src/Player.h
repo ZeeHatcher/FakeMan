@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+#include <vector>
 #include "Bomb.h"
 #include "Dimensions.h"
 #include "MoveableObject.h"
@@ -13,7 +15,7 @@ public :
 	int getScore();
 	void incrementAmmo();
 	void incrementScore();
-	Bomb* useAmmo();
+	void dropBomb(std::vector<Bomb*>& bombs);
 	void die();
 	void draw();
 

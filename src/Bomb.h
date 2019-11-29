@@ -1,19 +1,25 @@
 #pragma once
+#include <cmath>
+#include <vector>
+#include "Cell.h"
+#include "Dimensions.h"
 #include "DrawableObject.h"
+#include "Explosion.h"
 #include "SwinGame.h"
+#include "Wall.h"
 
 class Bomb
 	: public DrawableObject
 {
 public :
-	Bomb();
 	Bomb(float x, float y);
-	int getActualTimeToExplode();
 	bool canExplode();
+	int getActualTimeToExplode();
 	void decrementActualTimeToExplode();
-	void explode();
 	void draw();
+	void explode(std::vector<std::vector<Cell*>>& cells, std::vector<Wall*>& walls, std::vector<Explosion*>& explosions);
 
 private :
 	int actualTimeToExplode_;
+	int explosionRadius_;
 };

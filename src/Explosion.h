@@ -1,5 +1,6 @@
 #pragma once
 #include "CollidableObject.h"
+#include "Dimensions.h"
 #include "SwinGame.h"
 
 class Explosion
