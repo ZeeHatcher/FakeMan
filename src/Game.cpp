@@ -3,7 +3,7 @@
 Game::Game()
 {
 	player_ = new Player();
-	initCells(20, 20);
+	initCells(10, 10);
     initMap();
 	initCollectibles();
 }
@@ -19,6 +19,10 @@ void Game::update()
 			col->collect(player_);
 			delete col;
 			collectibles_.erase(collectibles_.begin() + i);
+
+			cout << "Score: " << player_->getScore() << endl;
+			cout << "Ammo: " << player_->getAmmo() << endl;
+			cout << endl;
 		}
 	}
 
@@ -171,9 +175,21 @@ void Game::initCollectibles()
 
 			if (!isOccupied)
 			{
-				collectibles_.push_back(
-					new Food(cellBounding.x + cellBounding.width / 2 - 5 / 2, cellBounding.y + cellBounding.height / 2 - 5 / 2)
-				);
+				if (x == 1 && y == 1 ||
+					x == 8 && y == 1 ||
+					x == 1 && y == 8 ||
+					x == 8 && y == 8)
+				{
+					collectibles_.push_back(
+						new Ammo(cellBounding.x + cellBounding.width / 2 - 10 / 2, cellBounding.y + cellBounding.height / 2 - 10 / 2)
+					);
+				}
+				else
+				{
+					collectibles_.push_back(
+						new Food(cellBounding.x + cellBounding.width / 2 - 5 / 2, cellBounding.y + cellBounding.height / 2 - 5 / 2)
+					);
+				}
 			}
 		}
 	}
@@ -189,7 +205,7 @@ void Game::initMap()
 			for (int y = 0; y < cells_[x].size(); y++)
 			{
 				rectangle cellBounding = cells_[x][y]->getBounding();
-				borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+				borders_.push_back(new Wall(cellBounding.x, cellBounding.y, ColorBlue));
 			}
 		}
 		else
@@ -197,10 +213,10 @@ void Game::initMap()
 			rectangle cellBounding;
 
 			cellBounding = (cells_[x].front())->getBounding();
-			borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+			borders_.push_back(new Wall(cellBounding.x, cellBounding.y, ColorBlue));
 
 			cellBounding = (cells_[x].back())->getBounding();
-			borders_.push_back(new Wall(cellBounding.x, cellBounding.y));
+			borders_.push_back(new Wall(cellBounding.x, cellBounding.y, ColorBlue));
 		}
 	}
 

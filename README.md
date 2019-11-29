@@ -6,7 +6,7 @@ Distinction-level assginment for COS20007 OBJECT ORIENTED PROGRAMMING.
 - [x] Walls & Map
 - [x] Collision
 - [x] Player Movement
-- [ ] Collectibles & Player Interaction
+- [x] Collectibles & Player Interaction
 - [ ] Bombs & Explosions
 - [ ] Enemy Movement & Interaction
 - [ ] Win/Lose Condition

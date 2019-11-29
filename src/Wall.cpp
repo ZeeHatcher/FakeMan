@@ -1,7 +1,12 @@
 #include "Wall.h"
 
 Wall::Wall(float x, float y)
-	: CollidableObject(x, y, TILE_DIM, TILE_DIM, ColorGray)
+	: Wall(x, y, ColorGray)
+{
+}
+
+Wall::Wall(float x, float y, color clr)
+	: CollidableObject(x, y, TILE_DIM, TILE_DIM, clr)
 {
 }
 

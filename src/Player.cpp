@@ -13,8 +13,19 @@ int Player::getAmmo()
 	return ammo_;
 }
 
-void Player::obtainAmmo()
+int Player::getScore()
 {
+	return score_;
+}
+
+void Player::incrementAmmo()
+{
+	ammo_++;
+}
+
+void Player::incrementScore()
+{
+	score_++;
 }
 
 Bomb* Player::useAmmo()

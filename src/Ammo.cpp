@@ -7,8 +7,10 @@ Ammo::Ammo(float x, float y)
 
 void Ammo::collect(Player* player)
 {
+	player->incrementAmmo();
 }
 
 void Ammo::draw()
 {
+	draw_rectangle(color_, bounding_);
 }

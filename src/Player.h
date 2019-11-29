@@ -10,7 +10,9 @@ class Player
 public :
 	Player();
 	int getAmmo();
-	void obtainAmmo();
+	int getScore();
+	void incrementAmmo();
+	void incrementScore();
 	Bomb* useAmmo();
 	void die();
 	void draw();

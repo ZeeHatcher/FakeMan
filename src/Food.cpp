@@ -7,6 +7,7 @@ Food::Food(float x, float y)
 
 void Food::collect(Player* player)
 {
+	player->incrementScore();
 }
 
 void Food::draw()

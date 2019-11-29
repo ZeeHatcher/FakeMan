@@ -16,6 +16,11 @@
 #include "Status.h"
 #include "Wall.h"
 
+// TEST
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
 class Game
 {
 public :
