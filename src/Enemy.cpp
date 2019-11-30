@@ -3,12 +3,12 @@
 Enemy::Enemy(float x, float y, color col, float speed, int timeToNextMove)
 	: MoveableObject(x+1, y+1, TILE_DIM-2, TILE_DIM-2, col, speed)
 {
-	respawnPos_.x = x;
-	respawnPos_.y = y;
+	respawnPos_.x = x + 1;
+	respawnPos_.y = y + 1;
 	timeToNextMove_ = timeToNextMove * 60;
-	actualTimeToNextMove_ = timeToNextMove * 60;
+	actualTimeToNextMove_ = 3 * 60;
 	timeToRespawn_ = actualTimeToRespawn_ = 10 * 60;
-	direction_ = Direction::Down;
+	direction_ = Direction::Null;
 }
 
 bool Enemy::canMove()

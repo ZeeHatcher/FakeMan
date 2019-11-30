@@ -6,9 +6,9 @@ Game::Game()
     initMap();
 	initCollectibles();
 	enemies_ = {
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 3, 1),
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 2, 2),
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 1, 3)
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 3, 1),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2)
 	};
 	player_ = new Player();
 }
@@ -437,11 +437,16 @@ void Game::initMap()
 	}
 
     // Init "destructible" walls
-	initWalls(2, 2, 5, 0);
-	initWalls(2, 7, 5, 0);
-	initWalls(2, 4, 0, 1);
-	initWalls(7, 4, 0, 1);
-	initWalls(4, 5, 1, 0);
+	initWalls(9, 5, 1, 0);
+	initWalls(9, 7, 1, 0);
+	initWalls(7, 2, 0, 8);
+	initWalls(2, 2, 4, 0);
+	initWalls(1, 4, 4, 0);
+	initWalls(2, 6, 4, 0);
+	initWalls(1, 8, 4, 0);
+	initWalls(2, 10, 4, 0);
+	initWalls(10, 1, 0, 2);
+	initWalls(10, 9, 0, 2);
 }
 
 void Game::initWalls(int x, int y, int widthSpan, int heightSpan)
