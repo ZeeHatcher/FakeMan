@@ -8,7 +8,7 @@ Distinction-level assginment for COS20007 OBJECT ORIENTED PROGRAMMING.
 - [x] Player Movement
 - [x] Collectibles & Player Interaction
 - [x] Bombs & Explosions
-- [ ] Enemy Movement & Interaction
+- [x] Enemy Movement & Interaction
 - [ ] Win/Lose Condition
 - [ ] Menu System
 - [ ] (Optional) Fix memory space allocation during object destruction
