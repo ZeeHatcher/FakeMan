@@ -11,12 +11,32 @@ Game::Game()
 		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2)
 	};
 	player_ = new Player();
+	status_ = Status::MidGame;
 }
 
 void Game::update()
 {
-	if (player_->getAlive() == false)
+	switch (status_)
 	{
+	case Status::PreGame:
+		updatePreGame();
+		break;
+
+	case Status::MidGame:
+		updateMidGame();
+		break;
+
+	case Status::PostGame:
+		updatePostGame();
+		break;
+	}
+}
+
+void Game::updateMidGame()
+{
+	if (player_->getAlive() == false || collectibles_.empty())
+	{
+		status_ = Status::PostGame;
 	}
 
 	for (int i = explosions_.size() - 1; i >= 0; i--)
@@ -312,6 +332,16 @@ void Game::update()
 	}
 }
 
+void Game::updatePostGame()
+{
+
+}
+
+void Game::updatePreGame()
+{
+
+}
+
 void Game::draw()
 {
 	for (int i = 0; i < collectibles_.size(); i++)
@@ -345,6 +375,14 @@ void Game::draw()
 	}
 
 	player_->draw();
+
+	std::stringstream scoreText;
+	scoreText << "Score: " << player_->getScore();
+	draw_text(scoreText.str().c_str(), ColorWhite, (MAP_WIDTH + 1) * TILE_DIM, 1 * TILE_DIM);
+
+	std::stringstream ammoText;
+	ammoText << "Ammo: " << player_->getAmmo();
+	draw_text(ammoText.str().c_str(), ColorWhite, (MAP_WIDTH + 1) * TILE_DIM, 2 * TILE_DIM);
 }
 
 void Game::initCells(int widthSpan, int heightSpan)

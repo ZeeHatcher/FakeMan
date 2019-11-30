@@ -1,4 +1,5 @@
 #pragma once
+#include <sstream>
 #include <vector>
 #include "Ammo.h"
 #include "Bomb.h"
@@ -27,6 +28,9 @@ class Game
 public :
 	Game();
 	void update();
+	void updateMidGame();
+	void updatePostGame();
+	void updatePreGame();
 	void draw();
 
 private :
