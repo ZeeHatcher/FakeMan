@@ -2,17 +2,40 @@
 
 Game::Game()
 {
-	player_ = new Player();
-	initCells(10, 10);
+	initCells(MAP_WIDTH, MAP_HEIGHT);
     initMap();
 	initCollectibles();
+	enemies_ = {
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 3, 1),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 2, 2),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 1, 3)
+	};
+	player_ = new Player();
 }
 
 void Game::update()
 {
+	if (player_->getAlive() == false)
+	{
+	}
+
 	for (int i = explosions_.size() - 1; i >= 0; i--)
 	{
 		Explosion* exp = explosions_[i];
+
+		if (player_->isCollide(exp))
+		{
+			player_->die();
+		}
+
+		for (int j = 0; j < enemies_.size(); j++)
+		{
+			Enemy* e = enemies_[j];
+			if (e->isCollide(exp))
+			{
+				e->die();
+			}
+		}
 
 		if (exp->canDissipate())
 		{
@@ -22,6 +45,14 @@ void Game::update()
 		else
 		{
 			exp->decrementActualTimeToDissipate();
+		}
+	}
+
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		if (player_->isCollide(enemies_[i]))
+		{
+			player_->die();
 		}
 	}
 
@@ -53,6 +84,134 @@ void Game::update()
 		}
 	}
 
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		Enemy* e = enemies_[i];
+
+		if (e->getAlive() == true)
+		{
+			if (e->canMove())
+			{
+				e->chooseNextMove(borders_, walls_);
+				e->resetActualTimeToNextMove();
+			}
+			else
+			{
+				e->decrementActualTimeToNextMove();
+			}
+
+			e->move();
+
+			rectangle enemyBounding = e->getBounding();
+			switch (e->getDirection())
+			{
+			case Direction::Up:
+				for (int i = 0; i < borders_.size(); i++)
+				{
+					if (e->isCollide(borders_[i]))
+					{
+						rectangle wallBounding = borders_[i]->getBounding();
+						e->warp(enemyBounding.x, wallBounding.y + wallBounding.height + 1);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				for (int i = 0; i < walls_.size(); i++)
+				{
+					if (e->isCollide(walls_[i]))
+					{
+						rectangle wallBounding = walls_[i]->getBounding();
+						e->warp(enemyBounding.x, wallBounding.y + wallBounding.height + 1);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				break;
+
+			case Direction::Down:
+				for (int i = 0; i < borders_.size(); i++)
+				{
+					if (e->isCollide(borders_[i]))
+					{
+						rectangle wallBounding = borders_[i]->getBounding();
+						e->warp(enemyBounding.x, wallBounding.y - enemyBounding.height - 1);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				for (int i = 0; i < walls_.size(); i++)
+				{
+					if (e->isCollide(walls_[i]))
+					{
+						rectangle wallBounding = walls_[i]->getBounding();
+						e->warp(enemyBounding.x, wallBounding.y - enemyBounding.height - 1);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				break;
+
+			case Direction::Left:
+				for (int i = 0; i < borders_.size(); i++)
+				{
+					if (e->isCollide(borders_[i]))
+					{
+						rectangle wallBounding = borders_[i]->getBounding();
+						e->warp(wallBounding.x + wallBounding.width + 1, enemyBounding.y);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				for (int i = 0; i < walls_.size(); i++)
+				{
+					if (e->isCollide(walls_[i]))
+					{
+						rectangle wallBounding = walls_[i]->getBounding();
+						e->warp(wallBounding.x + wallBounding.width + 1, enemyBounding.y);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				break;
+
+			case Direction::Right:
+				for (int i = 0; i < borders_.size(); i++)
+				{
+					if (e->isCollide(borders_[i]))
+					{
+						rectangle wallBounding = borders_[i]->getBounding();
+						e->warp(wallBounding.x - enemyBounding.width - 1, enemyBounding.y);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				for (int i = 0; i < walls_.size(); i++)
+				{
+					if (e->isCollide(walls_[i]))
+					{
+						rectangle wallBounding = walls_[i]->getBounding();
+						e->warp(wallBounding.x - enemyBounding.width - 1, enemyBounding.y);
+						e->skipActualTimeToNextMove();
+					}
+				}
+
+				break;
+			}
+		}
+		else
+		{
+			if (e->canRespawn())
+			{
+				e->respawn();
+			}
+			else
+			{
+				e->decrementActualTimeToRespawn();
+			}
+		}
+	}
+
+	// Player Movement
 	rectangle& playerBounding = player_->getBounding();
 
 	if (key_down(VK_LEFT))
@@ -180,6 +339,11 @@ void Game::draw()
 		walls_[i]->draw();
 	}
 
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		enemies_[i]->draw();
+	}
+
 	player_->draw();
 }
 
@@ -197,9 +361,11 @@ void Game::initCells(int widthSpan, int heightSpan)
 
 void Game::initCollectibles()
 {
-	for (int x = 1; x < cells_.size() - 1; x++)
+	int maxPlayableX = cells_.size() - 1;
+	for (int x = 1; x < maxPlayableX; x++)
 	{
-		for (int y = 1; y < cells_[x].size() - 1; y++)
+		int maxPlayableY = cells_[x].size() - 1;
+		for (int y = 1; y < maxPlayableY; y++)
 		{
 			bool isOccupied = false;
 			rectangle cellBounding = cells_[x][y]->getBounding();
@@ -219,9 +385,9 @@ void Game::initCollectibles()
 			{
 				if (
 					(x == 1 && y == 1) ||
-					(x == 8 && y == 1) ||
-					(x == 1 && y == 8) ||
-					(x == 8 && y == 8)
+					(x == maxPlayableX - 1 && y == 1) ||
+					(x == 1 && y == maxPlayableY - 1) ||
+					(x == maxPlayableX - 1 && y == maxPlayableY - 1)
 				)
 				{
 					collectibles_.push_back(
@@ -292,4 +458,13 @@ void Game::initWalls(int x, int y, int widthSpan, int heightSpan)
 			walls_.push_back(new Wall(cellBounding.x, cellBounding.y));	
 		}
 	}	
+
+	for (int n = cells_.size() - x - 1; n > cells_.size() - x - widthSpan - 2; n--)
+	{
+		for (int m = y; m < y + heightSpan + 1; m++)
+		{
+			rectangle cellBounding = cells_[n][m]->getBounding();
+			walls_.push_back(new Wall(cellBounding.x, cellBounding.y));	
+		}
+	}
 }

@@ -5,6 +5,7 @@
 #include "Cell.h"
 #include "Collectible.h"
 #include "CollidableObject.h"
+#include "Direction.h"
 #include "DrawableObject.h"
 #include "Enemy.h"
 #include "Explosion.h"
