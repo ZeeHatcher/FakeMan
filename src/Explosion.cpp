@@ -6,6 +6,16 @@ Explosion::Explosion(float x, float y)
 	actualTimeToDissipate_ = 10;
 }
 
+bool Explosion::canDissipate()
+{
+	return (actualTimeToDissipate_ == 0);
+}
+
+void Explosion::decrementActualTimeToDissipate()
+{
+	actualTimeToDissipate_--;
+}
+
 void Explosion::draw()
 {
 	fill_rectangle(color_, bounding_);

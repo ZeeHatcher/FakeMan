@@ -11,7 +11,6 @@ public :
 	bool canDissipate();
 	void decrementActualTimeToDissipate();
 	void draw();
-	void dissipate();
 
 private :
 	int actualTimeToDissipate_;

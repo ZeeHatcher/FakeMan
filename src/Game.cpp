@@ -10,6 +10,21 @@ Game::Game()
 
 void Game::update()
 {
+	for (int i = explosions_.size() - 1; i >= 0; i--)
+	{
+		Explosion* exp = explosions_[i];
+
+		if (exp->canDissipate())
+		{
+			delete exp;
+			explosions_.erase(explosions_.begin() + i);
+		}
+		else
+		{
+			exp->decrementActualTimeToDissipate();
+		}
+	}
+
 	for (int i = bombs_.size() - 1; i >= 0; i--)
 	{
 		Bomb* bomb = bombs_[i];
