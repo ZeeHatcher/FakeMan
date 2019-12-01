@@ -2,16 +2,7 @@
 
 Game::Game()
 {
-	initCells(MAP_WIDTH, MAP_HEIGHT);
-    initMap();
-	initCollectibles();
-	enemies_ = {
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 3, 1),
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2),
-		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2)
-	};
-	player_ = new Player();
-	status_ = Status::MidGame;
+	init();
 }
 
 void Game::update()
@@ -334,12 +325,20 @@ void Game::updateMidGame()
 
 void Game::updatePostGame()
 {
-
+	if (key_typed(VK_R))
+	{
+		clear();
+		init();
+		status_ = Status::PreGame;
+	}
 }
 
 void Game::updatePreGame()
 {
-
+	if (any_key_pressed())
+	{
+		status_ = Status::MidGame;
+	}
 }
 
 void Game::draw()
@@ -383,6 +382,131 @@ void Game::draw()
 	std::stringstream ammoText;
 	ammoText << "Ammo: " << player_->getAmmo();
 	draw_text(ammoText.str().c_str(), ColorWhite, (MAP_WIDTH + 1) * TILE_DIM, 2 * TILE_DIM);
+
+	if (status_ != Status::MidGame)
+	{
+		std::vector<std::string> texts;
+		rectangle menuBox;
+		menuBox.x = WINDOW_WIDTH * 0.125;
+		menuBox.y = WINDOW_HEIGHT * 0.125;
+		menuBox.width = WINDOW_WIDTH * 0.75;
+		menuBox.height = WINDOW_HEIGHT * 0.75;
+
+		switch (status_)
+		{
+			case Status::PreGame:
+			{
+				texts = {
+					"Welcome To FakeMan, the PacMan replica.",
+					"ARROW KEYS to move, SPACEBAR to drop Bombs when you have Ammo.",
+					"Collect all the drops to win.",
+					"Touching an Enemy or Explosion tiles will result in a Game Over.",
+					"Good luck & have fun!",
+					"",
+					"Press ANY KEY to start..."
+				};
+
+				break;
+			}
+
+			case Status::PostGame:
+			{
+				texts = {
+					scoreText.str(),
+					"",
+					"Press R to try again..."
+				};
+				
+				if (player_->getAlive() == true)
+				{
+					texts.insert(texts.begin(), "Victory!");
+				}
+				else
+				{
+					texts.insert(texts.begin(), "Game Over!");
+				}
+
+				break;
+			}
+		}
+		
+		fill_rectangle(ColorBlack, menuBox);
+		draw_rectangle(ColorRed, menuBox);
+
+		for (int i = 0; i < texts.size(); i++)
+		{
+			const char* txt = texts[i].c_str();
+			float textX = menuBox.x + 20;
+			float textY = menuBox.y + 20 + 10 * i;
+
+			draw_text(txt, ColorWhite, textX, textY);
+		}
+	}
+}
+
+void Game::clear()
+{
+	delete player_;
+	player_ = nullptr;
+
+	for (int i = 0; i < bombs_.size(); i++)
+	{
+		delete bombs_[i];
+	}
+	bombs_ = {};
+
+	for (int i = 0; i < cells_.size(); i++)
+	{
+		for (int j = 0; j < cells_[i].size(); j++)
+		{
+			delete cells_[i][j];
+		}
+	}
+	cells_ = {};
+
+	for (int i = 0; i < collectibles_.size(); i++)
+	{
+		delete collectibles_[i];
+	}
+	collectibles_ = {};
+
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		delete enemies_[i];
+	}
+	enemies_ = {};
+
+	for (int i = 0; i < explosions_.size(); i++)
+	{
+		delete explosions_[i];
+	}
+	explosions_ = {};
+
+	for (int i = 0; i < borders_.size(); i++)
+	{
+		delete borders_[i];
+	}
+	borders_ = {};
+
+	for (int i = 0; i < walls_.size(); i++)
+	{
+		delete walls_[i];
+	}
+	walls_ = {};
+}
+
+void Game::init()
+{
+	initCells(MAP_WIDTH, MAP_HEIGHT);
+    initMap();
+	initCollectibles();
+	enemies_ = {
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorMagenta, 3, 1),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2),
+		new Enemy(MAP_WIDTH / 2 * TILE_DIM, MAP_HEIGHT / 2 * TILE_DIM, ColorPurple, 2, 2)
+	};
+	player_ = new Player();
+	status_ = Status::PostGame;
 }
 
 void Game::initCells(int widthSpan, int heightSpan)
@@ -478,13 +602,14 @@ void Game::initMap()
 	initWalls(9, 5, 1, 0);
 	initWalls(9, 7, 1, 0);
 	initWalls(7, 2, 0, 8);
+	initWalls(10, 1, 0, 2);
+	initWalls(10, 9, 0, 2);
+
 	initWalls(2, 2, 4, 0);
 	initWalls(1, 4, 4, 0);
 	initWalls(2, 6, 4, 0);
 	initWalls(1, 8, 4, 0);
 	initWalls(2, 10, 4, 0);
-	initWalls(10, 1, 0, 2);
-	initWalls(10, 9, 0, 2);
 }
 
 void Game::initWalls(int x, int y, int widthSpan, int heightSpan)

@@ -12,7 +12,6 @@
 #include "Explosion.h"
 #include "Food.h"
 #include "GameObject.h"
-#include "Menu.h"
 #include "MoveableObject.h"
 #include "Player.h"
 #include "Status.h"
@@ -34,12 +33,13 @@ public :
 	void draw();
 
 private :
+	void init();
 	void initCells(int widthSpan, int heightSpan);
 	void initCollectibles();
 	void initMap();
 	void initWalls(int x, int y, int widthSpan, int heightSpan);
+	void clear();
 	
-	Menu menu_;
 	Player* player_;
 	Status status_;
 	std::vector<Bomb*> bombs_;

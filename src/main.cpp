@@ -4,7 +4,7 @@
 
 int main()
 {
-    open_graphics_window("Hello World", MAP_WIDTH * TILE_DIM + 300, MAP_HEIGHT * TILE_DIM);
+    open_graphics_window("Hello World", WINDOW_WIDTH, WINDOW_HEIGHT);
     // show_swin_game_splash_screen();
 
     Game game;
