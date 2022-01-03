@@ -1,14 +1,11 @@
 # FakeMan
-Distinction-level assginment for COS20007 OBJECT ORIENTED PROGRAMMING.
-**Deadline:** 1 December 2019
+**Assignment Unit:** COS20007 Object Oriented Programming
+**Language:** C++, SwinGame Game Dev Library
+**Description:** A replica of Pacman, but with an explosive twist.
 
-## ToDo
-- [x] Walls & Map
-- [x] Collision
-- [x] Player Movement
-- [x] Collectibles & Player Interaction
-- [x] Bombs & Explosions
-- [x] Enemy Movement & Interaction
-- [ ] Win/Lose Condition
-- [ ] Menu System
-- [ ] (Optional) Fix memory space allocation during object destruction
+# Features
++ Bombs
++ Destructible map
++ Random enemy movement patterns
++ Collectibles
++ Pause menu
