@@ -1,6 +1,6 @@
 # FakeMan
 **Assignment Unit:** COS20007 Object Oriented Programming  
-**Language:** C++
+**Language:** C++  
 **Description:** A replica of Pacman, but with an explosive twist. Object-oriented design and created with the help of the SwinGame game development library.
 
 ## Features
